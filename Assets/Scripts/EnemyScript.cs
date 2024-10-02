@@ -9,10 +9,12 @@ public class EnemyScript : MonoBehaviour
     public float speed = 0.01f;
     public int health = 3;
     private AudioSource audioSource;
+    private ParticleSystem ps;
     private Transform target;
 
     void Start()
     {
+        ps = GetComponentInChildren<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
         target = GameObject.FindGameObjectWithTag("SpaceShip").transform;
     }
@@ -33,6 +35,7 @@ public class EnemyScript : MonoBehaviour
         health -= 1;
         if(health <= 0) {
             audioSource.Play();
+            ps.Play();
             // fix this
             GetComponent<SpriteRenderer>().enabled = false;
             Destroy(gameObject, audioSource.clip.length);
