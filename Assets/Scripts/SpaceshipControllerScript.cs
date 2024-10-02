@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class SpaceshipControllerScript : MonoBehaviour
 {
@@ -74,8 +75,12 @@ public class SpaceshipControllerScript : MonoBehaviour
             explodeAudio.Play();
             explodePS.Play();
             GetComponent<SpriteRenderer>().enabled = false;
+            Invoke(nameof(LoadGameOverScreen), 1f);
             Destroy(gameObject, explodeAudio.clip.length);
         }
+    }
+    private void LoadGameOverScreen() {
+        SceneManager.LoadScene("GameOver");
     }
     // 
     // private void KeepWithinBounds()
