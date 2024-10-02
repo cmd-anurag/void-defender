@@ -9,10 +9,12 @@ public class SpaceshipControllerScript : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private Camera mainCamera;
 
-    public GameObject bulletPrefab;
     public float recoilForce = 0.5f;
+    public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
-    private AudioSource audioSource;
+    public AudioSource shootAudio;
+    public AudioSource explodeAudio;
+    private ParticleSystem explodePS;
 
     private void Awake() {
         // initialize input action object
@@ -32,7 +34,7 @@ public class SpaceshipControllerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        explodePS = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -58,9 +60,9 @@ public class SpaceshipControllerScript : MonoBehaviour
 
     void OnShoot(InputAction.CallbackContext context) {
 
+        shootAudio.Play();
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         BulletScript bulletScript = bullet.GetComponent<BulletScript>();
-        audioSource.Play();
         
         bulletScript.Initialize(transform.up);
 
@@ -68,7 +70,12 @@ public class SpaceshipControllerScript : MonoBehaviour
         GetComponent<Rigidbody2D>().AddForce(recoilDirection * recoilForce, ForceMode2D.Impulse);
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("EnemySpaceShip")) Debug.Log("Game Over");
+        if(other.CompareTag("EnemySpaceShip")) {
+            explodeAudio.Play();
+            explodePS.Play();
+            GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(gameObject, explodeAudio.clip.length);
+        }
     }
     // 
     // private void KeepWithinBounds()

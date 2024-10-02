@@ -8,6 +8,7 @@ public class EnemyScript : MonoBehaviour
     // Start is called before the first frame update
     public float speed = 3f;
     public int health = 3;
+    private bool isMoving = true;
     public ScoreManagerScript scoreManagerScript;
     private AudioSource audioSource;
     private ParticleSystem ps;
@@ -27,10 +28,13 @@ public class EnemyScript : MonoBehaviour
             Debug.Log("Target not found");
             return;
         }
-        Vector3 direction = (target.position - transform.position).normalized;
-        transform.position += speed * Time.deltaTime * direction;
+        if(isMoving) {
+            Vector3 direction = (target.position - transform.position).normalized;
+            transform.position += speed * Time.deltaTime * direction;
+        }
     }
     public void TakeUnitDamage() {
+        if(health <= 0) return;
         Transform heart = transform.GetChild(0);
         Destroy(heart.gameObject);
         health -= 1;
@@ -40,8 +44,10 @@ public class EnemyScript : MonoBehaviour
     }
     private void HandleEnemyDeath() {
         audioSource.Play();
+        isMoving = false;
         ps.Play();
         GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
         ScoreManagerScript.Instance.AddUnitScore();
         Destroy(gameObject, audioSource.clip.length);
     }
