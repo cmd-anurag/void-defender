@@ -61,11 +61,14 @@ public class SpaceshipControllerScript : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         BulletScript bulletScript = bullet.GetComponent<BulletScript>();
         audioSource.Play();
-        // Debug.Log("Firing bullet with direction: " + transform.up);
+        
         bulletScript.Initialize(transform.up);
 
         Vector3 recoilDirection = -transform.up;
         GetComponent<Rigidbody2D>().AddForce(recoilDirection * recoilForce, ForceMode2D.Impulse);
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("EnemySpaceShip")) Debug.Log("Game Over");
     }
     // 
     // private void KeepWithinBounds()

@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 6031767693627772098}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: EnemySpaceShip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   health: 3
+  scoreManagerScript: {fileID: 0}
 --- !u!212 &-4132738430575231840
 SpriteRenderer:
   m_ObjectHideFlags: 0
