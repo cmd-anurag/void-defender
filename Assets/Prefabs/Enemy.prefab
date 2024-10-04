@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7646271317790578583}
   - component: {fileID: 8401836590382929974}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 335078999
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300040, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: -4132738430575231840}
   - component: {fileID: 8477132740782063066}
   - component: {fileID: 6031767693627772098}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: EnemySpaceShip
   m_Icon: {fileID: 0}
@@ -204,9 +204,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 576043547
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayerID: 335078999
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 97364b9108b9a92439c7e60cde25828a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -359,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3463741926185469411}
   - component: {fileID: 6033178614386698935}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Health (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -419,9 +419,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 335078999
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300040, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -443,7 +443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1245373026024262550}
   - component: {fileID: 3603653445649618239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Health (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,9 +503,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 335078999
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300040, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -544,6 +544,18 @@ PrefabInstance:
     - target: {fileID: 608276576279651320, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6928802881836529667, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6928802881836529667, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6928802881836529667, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 335078999
       objectReference: {fileID: 0}
     - target: {fileID: 7253150686902565582, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
       propertyPath: m_LocalScale.x
@@ -600,6 +612,10 @@ PrefabInstance:
     - target: {fileID: 8782120333134015287, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
       propertyPath: m_Name
       value: Particle System
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782120333134015287, guid: 04fac91ba05f5674a8ca6d9bc37f1576, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

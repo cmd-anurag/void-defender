@@ -46,3 +46,6 @@ TagManager:
   - name: Spaceship
     uniqueID: 576043547
     locked: 0
+  - name: Enemy
+    uniqueID: 335078999
+    locked: 0

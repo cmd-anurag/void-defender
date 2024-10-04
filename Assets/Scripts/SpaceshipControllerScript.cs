@@ -43,7 +43,6 @@ public class SpaceshipControllerScript : MonoBehaviour
     {
         Vector2 userMouseposition = playerInputActions.Spaceship.Look.ReadValue<Vector2>();
         RotateTowardsMouse(userMouseposition);
-        // KeepWithinBounds();
     }
     void RotateTowardsMouse(Vector2 userMouseposition) {
         // user mouse pos to world mouse pos
@@ -82,15 +81,5 @@ public class SpaceshipControllerScript : MonoBehaviour
     private void LoadGameOverScreen() {
         SceneManager.LoadScene("GameOver");
     }
-    // 
-    // private void KeepWithinBounds()
-    // {
-    //     Vector2 screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-
-    //     Vector3 clampedPosition = transform.position;
-    //     clampedPosition.x = Mathf.Clamp(clampedPosition.x, -screenBounds.x, screenBounds.x);
-    //     clampedPosition.y = Mathf.Clamp(clampedPosition.y, -screenBounds.y, screenBounds.y);
-
-    //     transform.position = clampedPosition;
-    // }
+    
 }
