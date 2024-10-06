@@ -14,6 +14,8 @@ public class EnemyScript : MonoBehaviour
     private ParticleSystem ps;
     private Transform target;
 
+    public GameObject explosionPrefab;
+
     void Start()
     {
         ps = GetComponentInChildren<ParticleSystem>();
@@ -44,11 +46,13 @@ public class EnemyScript : MonoBehaviour
     }
     private void HandleEnemyDeath() {
         audioSource.Play();
+        GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         isMoving = false;
         ps.Play();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
         ScoreManagerScript.Instance.AddUnitScore();
         Destroy(gameObject, audioSource.clip.length);
+        Destroy(explosion, 1f);
     }
 }

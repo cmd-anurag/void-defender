@@ -23,7 +23,7 @@ public class BackgroundManagerScript : MonoBehaviour
     {
         SpaceShip = GameObject.FindGameObjectWithTag("SpaceShip").transform;
         InitializeBackground();
-    }
+    }   
 
     // Update is called once per frame
     void Update()
