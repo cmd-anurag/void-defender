@@ -8,7 +8,6 @@ public class BulletScript : MonoBehaviour
     public float speed = 30f;
     private Vector2 direction;
     private Rigidbody2D rb;
-
     public void Initialize(Vector2 dir) {
         this.direction = dir.normalized;
     }
@@ -27,7 +26,7 @@ public class BulletScript : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Destroy(gameObject);
+        Destroy(gameObject, 0.01f);
         other.GetComponent<EnemyScript>().TakeUnitDamage();
     }
 }
