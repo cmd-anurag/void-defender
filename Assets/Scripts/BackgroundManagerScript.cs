@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -6,104 +5,122 @@ public class BackgroundManagerScript : MonoBehaviour
 {
     public Tilemap tilemap;
     public TileBase[] tiles;
+    public TileBase[] rareTiles;
     public int rows = 4;
     public int columns = 6;
     public float threshold = 10f;
     private int tileSize = 3;
     private Transform SpaceShip;
-    // boundary values
-    private float rightBoundary = 19;
-    private float leftBoundary = -19;
-    private float topBoundary = 13;
-    private float bottomBoundary = -13;
 
+    // Boundary values
+    private float rightBoundary = 18;
+    private float leftBoundary = -18;
+    private float topBoundary = 12;
+    private float bottomBoundary = -12;
 
-    // Start is called before the first frame update
+    // Constants
+    private const int rareTileChance = 20;
+    private const int rareTileOffset = 1;
+
     void Start()
     {
         SpaceShip = GameObject.FindGameObjectWithTag("SpaceShip").transform;
         InitializeBackground();
-    }   
+    }
 
-    // Update is called once per frame
     void Update()
     {
         CheckSpaceshipProximity();
     }
 
-    void InitializeBackground() {
-        for(int i = -rows; i < rows; ++i) {
-            for(int j = -columns; j < columns; ++j) {
-                
-                Vector3Int tileposition = new(i * tileSize,j * tileSize, 0);
-                TileBase randomTile = GetRandomBGTile();
-                tilemap.SetTile(tileposition, randomTile);
+    
+    void InitializeBackground()
+    {
+        for (int i = -rows; i < rows; ++i)
+        {
+            for (int j = -columns; j < columns; ++j)
+            {
+                Vector3Int tilePosition = new(i * tileSize, j * tileSize, 0);
+                PlaceTileWithChance(tilePosition);
             }
         }
     }
 
-    TileBase GetRandomBGTile() {
+    
+    void PlaceTileWithChance(Vector3Int tilePosition)
+    {
+        TileBase randomTile = GetRandomBGTile();
+        tilemap.SetTile(tilePosition, randomTile);
+
+        if (UnityEngine.Random.Range(0, rareTileChance) == 3)
+        {
+            Vector3Int rareTilePos = new(tilePosition.x + rareTileOffset, tilePosition.y + rareTileOffset, 0);
+            tilemap.SetTile(rareTilePos, GetRandomRareTile());
+        }
+    }
+
+    TileBase GetRandomBGTile()
+    {
         int randomIndex = UnityEngine.Random.Range(0, tiles.Length);
         return tiles[randomIndex];
     }
 
-    void CalculateDistanceToBoundary(out float rightDistance, out float leftDistance, out float topDistance, out float bottomDistance) {
-        
+    TileBase GetRandomRareTile()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, rareTiles.Length);
+        return rareTiles[randomIndex];
+    }
+
+    void CalculateDistanceToBoundary(out float rightDistance, out float leftDistance, out float topDistance, out float bottomDistance)
+    {
         rightDistance = Mathf.Abs(SpaceShip.position.x - rightBoundary);
         leftDistance = Mathf.Abs(SpaceShip.position.x - leftBoundary);
         topDistance = Mathf.Abs(SpaceShip.position.y - topBoundary);
         bottomDistance = Mathf.Abs(SpaceShip.position.y - bottomBoundary);
     }
 
-    void CheckSpaceshipProximity() {
+    void CheckSpaceshipProximity()
+    {
         CalculateDistanceToBoundary(out float rightDistance, out float leftDistance, out float topDistance, out float bottomDistance);
-        if(rightDistance < threshold) {
-            GenerateTile(Vector3.right);
-        }
-        if(leftDistance < threshold) {
-            GenerateTile(Vector3.left);
-        }
-        if(topDistance < threshold) {
-            GenerateTile(Vector3.up);
-        }
-        if(bottomDistance < threshold) {
-            GenerateTile(Vector3.down);
-        }
+        
+        if (rightDistance < threshold)
+            ExpandInDirection(Vector3.right, ref rightBoundary);
+        
+        if (leftDistance < threshold)
+            ExpandInDirection(Vector3.left, ref leftBoundary);
+        
+        if (topDistance < threshold)
+            ExpandInDirection(Vector3.up, ref topBoundary);
+        
+        if (bottomDistance < threshold)
+            ExpandInDirection(Vector3.down, ref bottomBoundary);
     }
 
-    void GenerateTile(Vector3 direction) {
-        if(direction == Vector3.right) {
-            for(float i = bottomBoundary; i <= topBoundary; i+=tileSize) {
-                Vector3Int tilepos = WorldToCell(new(rightBoundary+tileSize, i, 0));
-                tilemap.SetTile(tilepos, GetRandomBGTile());
-            }
-            rightBoundary += tileSize;
-        }
-        else if(direction == Vector3.left) {
-            for(float i = bottomBoundary; i <= topBoundary; i+=tileSize) {
-                Vector3Int tilepos = WorldToCell(new(leftBoundary-tileSize, i, 0));
-                tilemap.SetTile(tilepos, GetRandomBGTile());
-            }
-            leftBoundary -= tileSize;
-        }
-        else if(direction == Vector3.up) {
-            for(float i = leftBoundary; i <= rightBoundary; i+=tileSize) {
-                Vector3Int tilepos = WorldToCell(new(i, topBoundary+tileSize, 0));
-                tilemap.SetTile(tilepos, GetRandomBGTile());
-            }
-            topBoundary += tileSize;
-        }
-        else {
-            for(float i = leftBoundary; i <= rightBoundary; i+=tileSize) {
-                Vector3Int tilepos = WorldToCell(new(i, bottomBoundary-tileSize,0));
-                tilemap.SetTile(tilepos, GetRandomBGTile());
-            }
-            bottomBoundary -= tileSize;
-        }
-    }
-
-    Vector3Int WorldToCell(Vector3 pos) {
-        return tilemap.WorldToCell(pos);
-    }
     
+    void ExpandInDirection(Vector3 direction, ref float boundary)
+    {
+        if (direction == Vector3.right || direction == Vector3.left)
+        {
+            for (float i = bottomBoundary; i <= topBoundary; i += tileSize)
+            {
+                Vector3Int tilePosition = WorldToCell(new Vector3(boundary + direction.x * tileSize, i, 0));
+                PlaceTileWithChance(tilePosition);
+            }
+        }
+        else if (direction == Vector3.up || direction == Vector3.down)
+        {
+            for (float i = leftBoundary; i <= rightBoundary; i += tileSize)
+            {
+                Vector3Int tilePosition = WorldToCell(new Vector3(i, boundary + direction.y * tileSize, 0));
+                PlaceTileWithChance(tilePosition);
+            }
+        }
+
+        boundary += direction.x != 0 ? direction.x * tileSize : direction.y * tileSize;
+    }
+
+    Vector3Int WorldToCell(Vector3 position)
+    {
+        return tilemap.WorldToCell(position);
+    }
 }
