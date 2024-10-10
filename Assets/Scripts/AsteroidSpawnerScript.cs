@@ -18,10 +18,6 @@ public class AsteroidSpawnerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void SpawnAsteroid() {
         float randomAngle = UnityEngine.Random.Range(0,359) * Mathf.Deg2Rad;

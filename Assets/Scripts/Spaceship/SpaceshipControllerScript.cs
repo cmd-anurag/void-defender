@@ -12,10 +12,12 @@ public class SpaceshipControllerScript : MonoBehaviour
 
     public float recoilForce = 0.5f;
     public GameObject bulletPrefab;
+    public GameObject explosionPrefab;
     public Transform bulletSpawnPoint;
     public AudioSource shootAudio;
     public AudioSource explodeAudio;
-    private ParticleSystem explodePS;
+
+    
 
     private void Awake() {
         // initialize input action object
@@ -68,6 +70,9 @@ public class SpaceshipControllerScript : MonoBehaviour
         if(other.CompareTag("EnemySpaceShip")) {
             explodeAudio.Play();
             GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(false);
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Invoke(nameof(LoadGameOverScreen), 1f);
             Destroy(gameObject, explodeAudio.clip.length);
         }

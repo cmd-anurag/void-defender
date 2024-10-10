@@ -834,6 +834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoilForce: 40
   bulletPrefab: {fileID: 4635337711394509660, guid: 357fee7394ca0274d83f4a4aa120c32f, type: 3}
+  explosionPrefab: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
   bulletSpawnPoint: {fileID: 196252819}
   shootAudio: {fileID: 987693838}
   explodeAudio: {fileID: 987693840}
@@ -1091,6 +1092,57 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1067561796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1067561798}
+  - component: {fileID: 1067561797}
+  m_Layer: 0
+  m_Name: AsteroidSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1067561797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067561796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a5396a3372f5b743a2996f1a9aec77e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroidPrefabs:
+  - {fileID: 4707144468833138691, guid: 0341d3cfbbac8d8448896db17afc3092, type: 3}
+  - {fileID: 4707144468833138691, guid: 453d4dc597f5b60479fe92b1b472956b, type: 3}
+  - {fileID: 4707144468833138691, guid: 14e3aef11000da547afe844efc302309, type: 3}
+  - {fileID: 4707144468833138691, guid: 003e11f272efaec479e6fd2b8282263c, type: 3}
+  spawnInterval: 15
+  radius: 10
+--- !u!4 &1067561798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067561796}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1177700963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,6 +1585,7 @@ SceneRoots:
   - {fileID: 956919927}
   - {fileID: 2003152227}
   - {fileID: 668900251}
+  - {fileID: 1067561798}
   - {fileID: 722845341}
   - {fileID: 900202334}
   - {fileID: 1293564549}
