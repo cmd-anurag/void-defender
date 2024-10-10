@@ -8,8 +8,8 @@ public class AsteroidSpawnerScript : MonoBehaviour
     [SerializeField]private Sprite[] AsteroidSprites;
     [SerializeField]private GameObject AsteroidPrefab;
 
-    [SerializeField]private float spawnInterval = 10f;
-    [SerializeField]private int radius = 5;
+    [SerializeField]private float spawnInterval = 15f;
+    [SerializeField]private int radius = 7;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,8 @@ public class AsteroidSpawnerScript : MonoBehaviour
         Asteroid.transform.localScale = new(scale, scale);
         Asteroid.GetComponent<SpriteRenderer>().sprite = GetRandomSprite();
         Vector2 directionToOrigin = new(-spawnPosition.x, -spawnPosition.y);
-        Asteroid.GetComponent<Rigidbody2D>().velocity = directionToOrigin.normalized;
+        Asteroid.GetComponent<Rigidbody2D>().velocity = directionToOrigin.normalized * 1.5f;
+        Destroy(Asteroid, 15f);
     }
 
     Sprite GetRandomSprite() {
