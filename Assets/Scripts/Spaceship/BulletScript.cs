@@ -26,10 +26,9 @@ public class BulletScript : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Collided with "+other);
         if(other.CompareTag("EnemySpaceShip")) {
-            Destroy(gameObject, 0.01f);
             other.GetComponent<EnemyScript>().TakeUnitDamage();
         }
+        Destroy(gameObject, 0.01f);
     }
 }

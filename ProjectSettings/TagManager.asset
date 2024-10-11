@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SpaceShip
   - EnemySpaceShip
+  - Asteroid
   layers:
   - Default
   - TransparentFX

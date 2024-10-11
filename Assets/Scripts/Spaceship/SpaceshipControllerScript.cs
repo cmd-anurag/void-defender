@@ -67,7 +67,7 @@ public class SpaceshipControllerScript : MonoBehaviour
 
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("EnemySpaceShip")) {
+        if(other.CompareTag("EnemySpaceShip") || other.CompareTag("Asteroid")) {
             explodeAudio.Play();
             GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(1).gameObject.SetActive(false);
