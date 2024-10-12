@@ -7,7 +7,7 @@ public class HostileAsteroidScript : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]GameObject[] asteroidPrefabs;
     [SerializeField]private float spawnInterval = 15f;
-    [SerializeField]private int radius = 10;
+    [SerializeField]private int radius = 15;
     private GameObject spaceship;
 
     
@@ -36,12 +36,11 @@ public class HostileAsteroidScript : MonoBehaviour
 
         float scale = UnityEngine.Random.Range(1.5f, 2.0f);
         Asteroid.transform.localScale = new(scale, scale);
-        AsteroidSpeed = UnityEngine.Random.Range(1f, 3f);
-        offsetFromOrigin = UnityEngine.Random.Range(-4, 4);
+        AsteroidSpeed = UnityEngine.Random.Range(3f, 4f);
 
         Vector2 directionToPLayer = spaceship.transform.position - spawnPosition;
         Asteroid.GetComponent<Rigidbody2D>().velocity = directionToPLayer.normalized * AsteroidSpeed;
-        Destroy(Asteroid, spawnInterval);
+        Destroy(Asteroid, 20f);
     }
 
     GameObject GetRandomAsteroid() {
