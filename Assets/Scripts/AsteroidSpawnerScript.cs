@@ -11,13 +11,13 @@ public class AsteroidSpawnerScript : MonoBehaviour
     [SerializeField]private float spawnInterval = 15f;
     [SerializeField]private int radius = 7;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         InvokeRepeating(nameof(SpawnAsteroid), 0f, spawnInterval);
     }
 
-    // Update is called once per frame
+
 
     void SpawnAsteroid() {
         float randomAngle = UnityEngine.Random.Range(0,359) * Mathf.Deg2Rad;

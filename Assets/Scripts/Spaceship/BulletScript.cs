@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // TODO - Implement object pooling for bullets
     public float speed = 30f;
     private Vector2 direction;
     private Rigidbody2D rb;
@@ -19,11 +17,6 @@ public class BulletScript : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("EnemySpaceShip")) {

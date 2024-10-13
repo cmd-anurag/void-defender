@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HostileAsteroidScript : MonoBehaviour
@@ -18,12 +16,7 @@ public class HostileAsteroidScript : MonoBehaviour
         spaceship = GameObject.FindGameObjectWithTag("SpaceShip");
         InvokeRepeating(nameof(SpawnHostileAsteroid), 10f, spawnInterval);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     void SpawnHostileAsteroid() {
         Vector3 spawnPosition;
         float randomAngle = UnityEngine.Random.Range(0, 360) * Mathf.Deg2Rad;

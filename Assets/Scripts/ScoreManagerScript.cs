@@ -1,23 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 public class ScoreManagerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public static ScoreManagerScript Instance;
+    // UI ELEMENTS
     [SerializeField]private TextMeshProUGUI textUI;
     [SerializeField]private TextMeshProUGUI highScoreUI;
+
+    // PROPERTIES of GameObject
     private int userScore = 0;
     private const string highscorekey = "HighScore";
 
-    private void Awake() {
-        if(Instance==null) Instance = this;
-        else {
-            Destroy(gameObject);
-        }
-
+    // EVENT Subscriptions
+    private void OnEnable() {
+        // This event is fired when an enemy dies
+        EnemyScript.OnEnemyDeath += AddUnitScore;
     }
+    private void OnDisable() {
+        EnemyScript.OnEnemyDeath -= AddUnitScore;
+    }
+   
     void Start()
     {
         userScore = 0;
@@ -25,16 +26,9 @@ public class ScoreManagerScript : MonoBehaviour
         highScoreUI.text = GetHighScore().ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void AddUnitScore() {
-        ++userScore;
+    private void AddUnitScore(int score, Transform position) {
+        userScore += score;
         UpdateScoreonUI();
-
 
         if(userScore > GetHighScore()) {
             UpdateHighScoreOnUI();
@@ -44,17 +38,15 @@ public class ScoreManagerScript : MonoBehaviour
 
     }
 
-    public int GetHighScore() {
+    private int GetHighScore() {
         return PlayerPrefs.GetInt(highscorekey, 0);
     }
 
-    void UpdateScoreonUI() {
+    private void UpdateScoreonUI() {
         textUI.text = userScore.ToString();
     }
 
-    
-
-    void UpdateHighScoreOnUI() {
+    private void UpdateHighScoreOnUI() {
         highScoreUI.text = userScore.ToString();
     }
 
