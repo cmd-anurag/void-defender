@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7646271317790578583}
   - component: {fileID: 8401836590382929974}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: -4132738430575231840}
   - component: {fileID: 8477132740782063066}
   - component: {fileID: 6031767693627772098}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Enemy
   m_TagString: EnemySpaceShip
   m_Icon: {fileID: 0}
@@ -135,9 +135,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -148,7 +148,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &1253882997860970428
 MonoBehaviour:
@@ -164,8 +164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   health: 3
-  scoreManagerScript: {fileID: 0}
-  explosionPrefab: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
 --- !u!212 &-4132738430575231840
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -359,7 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3463741926185469411}
   - component: {fileID: 6033178614386698935}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Health (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1245373026024262550}
   - component: {fileID: 3603653445649618239}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Health (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

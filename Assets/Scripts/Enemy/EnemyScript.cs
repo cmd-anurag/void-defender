@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
@@ -15,22 +13,29 @@ public class EnemyScript : MonoBehaviour
     // Properties of GameObject
     public float speed = 3f;
     public int health = 3;
-    private bool isMoving = true;
+    // private bool isMoving = true;
 
 
     private Transform target;
+    private Rigidbody2D Enemyrb;
 
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("SpaceShip").transform;
+        Enemyrb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if(target && isMoving) {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += speed * Time.deltaTime * direction;
+        Vector3 direction;
+        if(target != null) {
+            direction = (target.position - transform.position).normalized;
         }
+        else {
+            Debug.Log("No target found");
+            direction = new(0,0,0);
+        }
+        Enemyrb.velocity = direction * speed;
     }
 
     public void TakeUnitDamage() {
@@ -44,7 +49,9 @@ public class EnemyScript : MonoBehaviour
     }
     private void HandleEnemyDeath() {
         OnEnemyDeath?.Invoke(1, gameObject.transform);
-        isMoving = false;  
         Destroy(gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("Enemy collided with "+other);
     }
 }

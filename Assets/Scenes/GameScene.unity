@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 196252818}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.01, y: 1.72, z: 0}
+  m_LocalPosition: {x: -0.02, y: 1.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -523,6 +523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spaceship: {fileID: 987693835}
   offset: {x: 0, y: 0, z: 0}
+  smoothSpeed: 0.4
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &668900249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1078,7 @@ Transform:
   m_GameObject: {fileID: 987693833}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.57}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1117,7 +1119,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 10
   m_LinearDrag: 3
-  m_AngularDrag: 1
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1126,9 +1128,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!82 &987693838
 AudioSource:
@@ -1255,7 +1257,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.008834799, y: -0.12369831}
@@ -1452,7 +1454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e93b731e1c924249b31bcaf3ed26a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
 --- !u!1 &1177700963
 GameObject:
   m_ObjectHideFlags: 0

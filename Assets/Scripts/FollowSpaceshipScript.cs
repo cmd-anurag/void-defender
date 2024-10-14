@@ -5,8 +5,8 @@ public class FollowSpaceshipScript : MonoBehaviour
 
     public Transform spaceship;
     public Vector3 offset;
-    
-    private Vector3 velocity = Vector3.zero;
+    [SerializeField]private float smoothSpeed = 0.125f;
+    [SerializeField]private Vector3 velocity = Vector3.zero;
     
     void Start()
     {
@@ -15,7 +15,7 @@ public class FollowSpaceshipScript : MonoBehaviour
 
     void LateUpdate() {
         Vector3 targetPos = spaceship.position + offset;
-        Vector3 smoothedPos = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0);
+        Vector3 smoothedPos = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, smoothSpeed);
         transform.position = smoothedPos;
     }
 }
