@@ -541,7 +541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &668900250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,12 +1099,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42b8dfb213019f4280d1e7b0ba47bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilForce: 40
-  bulletPrefab: {fileID: 4635337711394509660, guid: 357fee7394ca0274d83f4a4aa120c32f, type: 3}
-  explosionPrefab: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
+  ObjectPool: {fileID: 1090603441}
   bulletSpawnPoint: {fileID: 196252819}
   shootAudio: {fileID: 987693838}
   explodeAudio: {fileID: 987693840}
+  recoilForce: 40
 --- !u!50 &987693837
 Rigidbody2D:
   serializedVersion: 4
@@ -1455,6 +1454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
+  bulletPrefab: {fileID: 4635337711394509660, guid: 357fee7394ca0274d83f4a4aa120c32f, type: 3}
 --- !u!1 &1177700963
 GameObject:
   m_ObjectHideFlags: 0

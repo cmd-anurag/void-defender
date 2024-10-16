@@ -5,16 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class SpaceshipControllerScript : MonoBehaviour
 {
-
+    // REFERENCES
     private PlayerInputActions playerInputActions;
     private Camera mainCamera;
-    private Rigidbody2D spaceshiprb;
-    public float recoilForce = 0.5f;
-    public GameObject bulletPrefab;
-    public GameObject explosionPrefab;
+    [SerializeField]private GameObject ObjectPool;
+    private ObjectPoolsScript objectPoolsScript;
+
     public Transform bulletSpawnPoint;
+    private Rigidbody2D spaceshiprb;
+
+
     public AudioSource shootAudio;
     public AudioSource explodeAudio;
+
+    // Spaceship Properties
+    public float recoilForce = 0.5f;
     private readonly float rotationSpeed = 360f;
     
 
@@ -35,14 +40,17 @@ public class SpaceshipControllerScript : MonoBehaviour
 
     void Start() {
         spaceshiprb = GetComponent<Rigidbody2D>();
+        objectPoolsScript = ObjectPool.GetComponent<ObjectPoolsScript>();
     }
 
-
+    // using fixedupdate here since rigid body is being changed
     void FixedUpdate()
     {
         Vector2 userMouseposition = playerInputActions.Spaceship.Look.ReadValue<Vector2>();
         RotateTowardsMouse(userMouseposition);
     }
+
+    // A function which rotates the GameObject (Spaceship) towards the mouse given the mouse position.
     void RotateTowardsMouse(Vector2 userMouseposition) {
         // user mouse pos to world mouse pos
         Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(userMouseposition.x, userMouseposition.y, Camera.main.nearClipPlane));
@@ -58,13 +66,20 @@ public class SpaceshipControllerScript : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
+    // The event function which is called when 'Shoot' Input Action is performed.
     void OnShoot(InputAction.CallbackContext context) {
 
         shootAudio.Play();
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        BulletScript bulletScript = bullet.GetComponent<BulletScript>();
         
-        bulletScript.Initialize(transform.up);
+        // get a bullet from the bullet pool
+        GameObject bullet = objectPoolsScript.GetBullet(bulletSpawnPoint);
+        BulletScript bulletScript = bullet.GetComponent<BulletScript>();
+
+
+        // set the bullet's movement direction
+        bulletScript.InitializeBullet(transform.up);
+
+        // apply recoil on spaceship
         Vector3 recoilDirection = -transform.up;
         GetComponent<Rigidbody2D>().AddForce(recoilDirection * recoilForce, ForceMode2D.Impulse);
     }
@@ -76,7 +91,7 @@ public class SpaceshipControllerScript : MonoBehaviour
             GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(1).gameObject.SetActive(false);
             transform.GetChild(2).gameObject.SetActive(false);
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            
             Invoke(nameof(LoadGameOverScreen), 1f);
             Destroy(gameObject, explodeAudio.clip.length);
         }

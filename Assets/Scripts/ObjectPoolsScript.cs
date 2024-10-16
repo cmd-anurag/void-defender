@@ -6,26 +6,38 @@ public class ObjectPoolsScript : MonoBehaviour
 {
     // OBJECT POOLS
     private Queue<GameObject> explosionPool = new();
+    private Queue<GameObject> bulletPool = new();
 
 
     // OBJECT PREFABS
     [SerializeField]private GameObject explosionPrefab;
+    [SerializeField]private GameObject bulletPrefab;
 
-    private int poolSize = 10;
+    private int explosionPoolSize = 5;
+    private int bulletPoolSize = 20;
 
     void Start()
     {
-        for(int i = 0; i < poolSize; ++i) {
+        // initialize the explosion pool
+        for(int i = 0; i < explosionPoolSize; ++i) {
             GameObject explosion = Instantiate(explosionPrefab);
             explosion.SetActive(false);
             explosionPool.Enqueue(explosion);
+        }
+
+        // initialize the bullet pool
+        for(int i = 0; i < bulletPoolSize; ++i) {
+            GameObject bullet = Instantiate(bulletPrefab);
+            bullet.SetActive(false);
+            bulletPool.Enqueue(bullet);
         }
     }
 
     // Getter for explosion gameobject
     public void GetExplosion(Vector3 position) {
         if(explosionPool.Count <= 0) {
-            return;
+            
+            ExpandBulletPool();
         }
         GameObject explosion = explosionPool.Dequeue();
         explosion.transform.position = position;
@@ -46,5 +58,39 @@ public class ObjectPoolsScript : MonoBehaviour
     private void ReturnExplosionToPool(GameObject explosion) {
         explosion.SetActive(false);
         explosionPool.Enqueue(explosion);
+    }
+
+
+
+    // getter for bullet gameobject
+    public GameObject GetBullet(Transform BulletSpawn) {
+        if(bulletPool.Count < 1) {
+            // expand the pool
+            return null;
+        }
+        GameObject bullet = bulletPool.Dequeue();
+        bullet.transform.SetPositionAndRotation(BulletSpawn.position, BulletSpawn.rotation);
+        bullet.SetActive(true);
+
+        StartCoroutine(ReturnBulletAfterDelay(bullet, 4f));
+        return bullet;
+    }
+
+    private IEnumerator ReturnBulletAfterDelay(GameObject bullet, float delay) {
+        yield return new WaitForSeconds(delay);
+        ReturnBulletToPool(bullet);
+    }
+
+    private void ReturnBulletToPool(GameObject bullet) {
+        bullet.SetActive(false);
+        bulletPool.Enqueue(bullet);
+    }
+
+    private void ExpandBulletPool() {
+        for(int i = 0; i < 10; ++i) {
+            GameObject bullet = Instantiate(bulletPrefab);
+            bullet.SetActive(false);
+            bulletPool.Enqueue(bullet);
+        }
     }
 }

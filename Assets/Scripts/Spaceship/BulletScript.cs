@@ -2,27 +2,24 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    // TODO - Implement object pooling for bullets
-    public float speed = 30f;
-    private Vector2 direction;
+    // Bullet Properties
+    [SerializeField] private float speed = 40f;
+    
+    // References
     private Rigidbody2D rb;
-    public void Initialize(Vector2 dir) {
-        this.direction = dir.normalized;
-    }
 
-    void Start()
-    {
+    void OnEnable() {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = direction * speed;
-        Destroy(gameObject, 5f);
     }
 
+    public void InitializeBullet(Vector3 travelDirection) {
+        rb.velocity = speed * travelDirection.normalized;
+    }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("BUllet collided with "+other);
+        // try decoupling it
         if(other.CompareTag("EnemySpaceShip")) {
             other.GetComponent<EnemyScript>().TakeUnitDamage();
-            Destroy(gameObject, 0.01f);
         }
     }
 }
