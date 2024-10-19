@@ -3,14 +3,19 @@ using UnityEngine.Tilemaps;
 
 public class BackgroundManagerScript : MonoBehaviour
 {
+
+    // REFERENCES
+    private Transform SpaceShip;
     public Tilemap tilemap;
     public TileBase[] tiles;
     public TileBase[] rareTiles;
+
+
+    // SIZE AND SHAPE
     public int rows = 4;
     public int columns = 6;
-    public float threshold = 10f;
     private int tileSize = 3;
-    private Transform SpaceShip;
+
 
     // Boundary values
     private float rightBoundary = 18;
@@ -18,22 +23,20 @@ public class BackgroundManagerScript : MonoBehaviour
     private float topBoundary = 12;
     private float bottomBoundary = -12;
 
+
     // Constants
+    public float threshold = 10f;
     private const int rareTileChance = 20;
     private const int rareTileOffset = 1;
+
 
     void Start()
     {
         SpaceShip = GameObject.FindGameObjectWithTag("SpaceShip").transform;
         InitializeBackground();
+        InvokeRepeating(nameof(CheckSpaceshipProximity), 0f, 0.5f);
     }
 
-    void Update()
-    {
-        CheckSpaceshipProximity();
-    }
-
-    
     void InitializeBackground()
     {
         for (int i = -rows; i < rows; ++i)
@@ -81,6 +84,8 @@ public class BackgroundManagerScript : MonoBehaviour
 
     void CheckSpaceshipProximity()
     {
+        if(!SpaceShip) return;
+        
         CalculateDistanceToBoundary(out float rightDistance, out float leftDistance, out float topDistance, out float bottomDistance);
         
         if (rightDistance < threshold)

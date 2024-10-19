@@ -2,27 +2,40 @@ using UnityEngine;
 
 public class HostileAsteroidScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // REFERENCES
+    private GameObject SpaceShip;
     [SerializeField]GameObject[] asteroidPrefabs;
+
+
+    // Asteroid Properties
     [SerializeField]private float spawnInterval = 15f;
     [SerializeField]private int radius = 15;
-    private GameObject spaceship;
+    private float AsteroidSpeed;
 
     
-    private float AsteroidSpeed;
-    int offsetFromOrigin;
     void Start()
     {
-        spaceship = GameObject.FindGameObjectWithTag("SpaceShip");
+        SpaceShip = GameObject.FindGameObjectWithTag("SpaceShip");
         InvokeRepeating(nameof(SpawnHostileAsteroid), 10f, spawnInterval);
+    }
+
+    void OnEnable() {
+        SpaceshipControllerScript.OnSpaceShipDeath += HandleSpaceShipDeath;
+    }
+
+    void OnDisable() {
+        SpaceshipControllerScript.OnSpaceShipDeath -= HandleSpaceShipDeath;
     }
     
     void SpawnHostileAsteroid() {
+        if(!SpaceShip) return;
+
+        
         Vector3 spawnPosition;
         float randomAngle = UnityEngine.Random.Range(0, 360) * Mathf.Deg2Rad;
 
-        spawnPosition.x = (spaceship.transform.position.x + radius) * Mathf.Sin(randomAngle);
-        spawnPosition.y = (spaceship.transform.position.x + radius) * Mathf.Cos(randomAngle);
+        spawnPosition.x = (SpaceShip.transform.position.x + radius) * Mathf.Sin(randomAngle);
+        spawnPosition.y = (SpaceShip.transform.position.x + radius) * Mathf.Cos(randomAngle);
         spawnPosition.z = 0;
 
         GameObject Asteroid = Instantiate(GetRandomAsteroid(), spawnPosition, Quaternion.identity);
@@ -31,7 +44,7 @@ public class HostileAsteroidScript : MonoBehaviour
         Asteroid.transform.localScale = new(scale, scale);
         AsteroidSpeed = UnityEngine.Random.Range(3f, 4f);
 
-        Vector2 directionToPLayer = spaceship.transform.position - spawnPosition;
+        Vector2 directionToPLayer = SpaceShip.transform.position - spawnPosition;
         Asteroid.GetComponent<Rigidbody2D>().velocity = directionToPLayer.normalized * AsteroidSpeed;
         Destroy(Asteroid, 20f);
     }
@@ -39,5 +52,9 @@ public class HostileAsteroidScript : MonoBehaviour
     GameObject GetRandomAsteroid() {
         int randomIndex = UnityEngine.Random.Range(0, asteroidPrefabs.Length);
         return asteroidPrefabs[randomIndex];
+    }
+
+    void HandleSpaceShipDeath() {
+        SpaceShip = null;
     }
 }

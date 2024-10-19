@@ -19,6 +19,7 @@ public class BulletScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         // try decoupling it
         if(other.CompareTag("EnemySpaceShip")) {
+            gameObject.SetActive(false);
             other.GetComponent<EnemyScript>().TakeUnitDamage();
         }
     }

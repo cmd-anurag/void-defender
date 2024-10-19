@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverManagerScript : MonoBehaviour
+public class GameStateManager : MonoBehaviour
 {
     public void ReplayGame() {
         SceneManager.LoadScene("GameScene");

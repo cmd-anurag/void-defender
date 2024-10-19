@@ -13,6 +13,8 @@ public class ObjectPoolsScript : MonoBehaviour
     [SerializeField]private GameObject explosionPrefab;
     [SerializeField]private GameObject bulletPrefab;
 
+    
+    // Pool Sizes
     private int explosionPoolSize = 5;
     private int bulletPoolSize = 20;
 

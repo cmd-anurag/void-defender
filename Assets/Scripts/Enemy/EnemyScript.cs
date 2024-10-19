@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
@@ -6,18 +5,24 @@ public class EnemyScript : MonoBehaviour
 
     // EVENTS of GameObject
     public delegate void EnemyDeath(int score, Transform position);
-
     public static event EnemyDeath OnEnemyDeath;
 
 
     // Properties of GameObject
     public float speed = 3f;
     public int health = 3;
-    // private bool isMoving = true;
 
-
+    // References
     private Transform target;
     private Rigidbody2D Enemyrb;
+
+    private void OnEnable() {
+        SpaceshipControllerScript.OnSpaceShipDeath += HandleSpaceShipDeath;
+    }
+
+    private void OnDisable() {
+        SpaceshipControllerScript.OnSpaceShipDeath -= HandleSpaceShipDeath;
+    }
 
     void Start()
     {
@@ -27,13 +32,9 @@ public class EnemyScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 direction;
+        Vector3 direction = new(1,0,0);
         if(target != null) {
             direction = (target.position - transform.position).normalized;
-        }
-        else {
-            Debug.Log("No target found");
-            direction = new(0,0,0);
         }
         Enemyrb.velocity = direction * speed;
     }
@@ -44,14 +45,19 @@ public class EnemyScript : MonoBehaviour
         Destroy(heart.gameObject);
         health -= 1;
         if(health == 0) {
-            HandleEnemyDeath();
+            DestroyEnemy();
         }
     }
-    private void HandleEnemyDeath() {
+    private void DestroyEnemy() {
         OnEnemyDeath?.Invoke(1, gameObject.transform);
         Destroy(gameObject);
     }
-    private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Enemy collided with "+other);
+
+    private void HandleSpaceShipDeath() {
+        target = null;
     }
+
+    // private void OnTriggerEnter2D(Collider2D other) {
+    //     Debug.Log("Enemy collided with "+other);
+    // }
 }
