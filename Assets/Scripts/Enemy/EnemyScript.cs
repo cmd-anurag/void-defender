@@ -11,6 +11,7 @@ public class EnemyScript : MonoBehaviour
     // Properties of GameObject
     public float speed = 3f;
     public int health = 3;
+    Vector3 direction = new(0,0,0);
 
     // References
     private Transform target;
@@ -32,7 +33,7 @@ public class EnemyScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 direction = new(1,0,0);
+        
         if(target != null) {
             direction = (target.position - transform.position).normalized;
         }
@@ -53,7 +54,7 @@ public class EnemyScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void HandleSpaceShipDeath() {
+    private void HandleSpaceShipDeath(Transform position) {
         target = null;
     }
 

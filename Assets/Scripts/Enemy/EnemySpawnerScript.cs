@@ -36,7 +36,7 @@ public class EnemySpawnerScript : MonoBehaviour
         Instantiate(enemyPrefab, randomSpawn, Quaternion.identity);
     }
 
-    void HandleSpaceShipDeath() {
+    void HandleSpaceShipDeath(Transform position) {
         SpaceShip = null;
     }
 }

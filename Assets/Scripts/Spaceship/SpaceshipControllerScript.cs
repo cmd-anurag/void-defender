@@ -7,7 +7,7 @@ public class SpaceshipControllerScript : MonoBehaviour
 {
 
     // EVENTS 
-    public delegate void SpaceShipDeath();
+    public delegate void SpaceShipDeath(Transform position);
     public static event SpaceShipDeath OnSpaceShipDeath; 
 
     // REFERENCES
@@ -91,7 +91,7 @@ public class SpaceshipControllerScript : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("EnemySpaceShip") || other.CompareTag("Asteroid")) {
-            OnSpaceShipDeath.Invoke();
+            OnSpaceShipDeath.Invoke(gameObject.transform);
             Destroy(gameObject);
         }
     }

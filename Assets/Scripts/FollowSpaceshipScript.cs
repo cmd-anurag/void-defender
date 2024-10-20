@@ -36,7 +36,7 @@ public class FollowSpaceshipScript : MonoBehaviour
         }
     }
 
-    void HandleSpaceShipDeath() {
+    void HandleSpaceShipDeath(Transform position) {
         spaceship = null;
     }
 
