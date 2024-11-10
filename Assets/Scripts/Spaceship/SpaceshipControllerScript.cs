@@ -1,7 +1,6 @@
-using UnityEditor.Callbacks;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class SpaceshipControllerScript : MonoBehaviour
 {
@@ -25,6 +24,13 @@ public class SpaceshipControllerScript : MonoBehaviour
     // Spaceship Properties
     public float recoilForce = 0.5f;
     private readonly float rotationSpeed = 360f;
+    [SerializeField] private float shootCooldown = 0.3f;
+    private float lastShoot = 0f;
+
+    private int maxAmmo = 10;
+    private int currentAmmo;
+    private bool isReloading;
+    
     
 
     private void Awake() {
@@ -36,15 +42,18 @@ public class SpaceshipControllerScript : MonoBehaviour
     private void OnEnable() {
         playerInputActions.Enable();
         playerInputActions.Spaceship.Shoot.performed += OnShoot;
+        playerInputActions.Spaceship.Reload.performed += OnReload;
     }
     private void OnDisable() {
         playerInputActions.Disable();
         playerInputActions.Spaceship.Shoot.performed -= OnShoot;
+        playerInputActions.Spaceship.Reload.performed -= OnReload;
     }
 
     void Start() {
         spaceshiprb = GetComponent<Rigidbody2D>();
         objectPoolsScript = ObjectPool.GetComponent<ObjectPoolsScript>();
+        currentAmmo = maxAmmo;
     }
 
     // using fixedupdate here since rigid body is being changed
@@ -72,6 +81,10 @@ public class SpaceshipControllerScript : MonoBehaviour
 
     // The event function which is called when 'Shoot' Input Action is performed.
     void OnShoot(InputAction.CallbackContext context) {
+        if(isReloading || Time.time < lastShoot + shootCooldown) {
+            Debug.Log("calm down");
+            return;
+        }
 
         shootAudio.Play();
         
@@ -85,7 +98,32 @@ public class SpaceshipControllerScript : MonoBehaviour
 
         // apply recoil on spaceship
         Vector3 recoilDirection = -transform.up;
-        GetComponent<Rigidbody2D>().AddForce(recoilDirection * recoilForce, ForceMode2D.Impulse);
+        spaceshiprb.AddForce(recoilDirection * recoilForce, ForceMode2D.Impulse);
+        lastShoot = Time.time;
+
+        --currentAmmo;
+        Debug.Log(currentAmmo+" ammo left");
+        if(currentAmmo == 0) {
+            StartCoroutine(ReloadAmmo(3f));
+        }
+
+    }
+
+    private void OnReload(InputAction.CallbackContext context) {
+        if(!isReloading) {
+            float minReloadTime = 1f;
+            float maxReloadTime = 3f;
+            float reloadTime = Mathf.Lerp(maxReloadTime, minReloadTime, currentAmmo/(float)maxAmmo);
+            StartCoroutine(ReloadAmmo(reloadTime));
+        }
+    }
+
+    private IEnumerator ReloadAmmo(float reloadtime) {
+        isReloading = true;
+        Debug.Log("reloading.... wait "+reloadtime+" seconds");
+        yield return new WaitForSeconds(reloadtime);
+        currentAmmo = maxAmmo;
+        isReloading = false;
     }
     
     
