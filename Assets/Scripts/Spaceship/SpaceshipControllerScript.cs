@@ -7,7 +7,12 @@ public class SpaceshipControllerScript : MonoBehaviour
 
     // EVENTS 
     public delegate void SpaceShipDeath(Transform position);
-    public static event SpaceShipDeath OnSpaceShipDeath; 
+    public static event SpaceShipDeath OnSpaceShipDeath;
+    
+    public delegate void SpaceShipAction();
+    public static event SpaceShipAction OnSpaceShipShoot;
+    public static event SpaceShipAction OnSpaceShipStartReload;
+    public static event SpaceShipAction OnSpaceShipEndReload;
 
     // REFERENCES
     private PlayerInputActions playerInputActions;
@@ -18,8 +23,6 @@ public class SpaceshipControllerScript : MonoBehaviour
     public Transform bulletSpawnPoint;
     private Rigidbody2D spaceshiprb;
 
-
-    public AudioSource shootAudio;
 
     // Spaceship Properties
     public float recoilForce = 0.5f;
@@ -48,6 +51,13 @@ public class SpaceshipControllerScript : MonoBehaviour
         playerInputActions.Disable();
         playerInputActions.Spaceship.Shoot.performed -= OnShoot;
         playerInputActions.Spaceship.Reload.performed -= OnReload;
+
+        // delete lingering subscribers of the events.
+        OnSpaceShipShoot = null;
+        OnSpaceShipStartReload = null;
+        OnSpaceShipEndReload = null;
+        OnSpaceShipDeath = null;
+
     }
 
     void Start() {
@@ -86,7 +96,7 @@ public class SpaceshipControllerScript : MonoBehaviour
             return;
         }
 
-        shootAudio.Play();
+        OnSpaceShipShoot.Invoke();
         
         // get a bullet from the bullet pool
         GameObject bullet = objectPoolsScript.GetBullet(bulletSpawnPoint);
@@ -102,8 +112,10 @@ public class SpaceshipControllerScript : MonoBehaviour
         lastShoot = Time.time;
 
         --currentAmmo;
+
         Debug.Log(currentAmmo+" ammo left");
         if(currentAmmo == 0) {
+            isReloading = true;
             StartCoroutine(ReloadAmmo(3f));
         }
 
@@ -119,11 +131,14 @@ public class SpaceshipControllerScript : MonoBehaviour
     }
 
     private IEnumerator ReloadAmmo(float reloadtime) {
+        OnSpaceShipStartReload.Invoke();
         isReloading = true;
         Debug.Log("reloading.... wait "+reloadtime+" seconds");
         yield return new WaitForSeconds(reloadtime);
         currentAmmo = maxAmmo;
         isReloading = false;
+        OnSpaceShipEndReload.Invoke();
+        Debug.Log("Reload finished");
     }
     
     

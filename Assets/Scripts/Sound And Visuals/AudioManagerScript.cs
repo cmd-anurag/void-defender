@@ -4,10 +4,12 @@ public class AudioManagerScript : MonoBehaviour
 {
     [SerializeField]private AudioSource EnemyDeathSound;
     [SerializeField]private AudioSource SpaceShipDeathSound;
+    [SerializeField]private AudioSource shootAudio;
 
     private void OnEnable() {
         EnemyScript.OnEnemyDeath += PlayEnemyDeathSound;
         SpaceshipControllerScript.OnSpaceShipDeath += PlaySpaceShipDeathSound;
+        SpaceshipControllerScript.OnSpaceShipShoot += PlayShootSound;
     }
 
     private void OnDisable() {
@@ -22,5 +24,8 @@ public class AudioManagerScript : MonoBehaviour
 
     private void PlaySpaceShipDeathSound(Transform position) {
         SpaceShipDeathSound.Play();
+    }
+    private void PlayShootSound() {
+        shootAudio.Play();
     }
 }

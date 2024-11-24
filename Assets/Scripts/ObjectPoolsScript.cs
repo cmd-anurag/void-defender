@@ -46,7 +46,7 @@ public class ObjectPoolsScript : MonoBehaviour
         explosion.SetActive(true);
         
         // return this gameobject after a delay 
-        StartCoroutine(ReturnExplosionAfterDelay(explosion, 1f));
+        StartCoroutine(ReturnExplosionAfterDelay(explosion, 0.67f));
     }
 
 

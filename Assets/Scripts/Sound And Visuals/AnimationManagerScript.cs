@@ -25,7 +25,7 @@ public class AnimationManagerScript : MonoBehaviour
 
     private void SpaceShipDeathExplosion(Transform spaceshipTransform) {
         GameObject explosion = Instantiate(spaceshipExplosionPrefab, spaceshipTransform.position, Quaternion.identity);
-        Destroy(explosion, 1.1f);
+        Destroy(explosion, 1f);
     }
     
 }
